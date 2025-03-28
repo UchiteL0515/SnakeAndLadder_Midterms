@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "SnakeNLadder_Midterms/1.0.0": {
+        "runtime": {
+          "SnakeNLadder_Midterms.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "SnakeNLadder_Midterms/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

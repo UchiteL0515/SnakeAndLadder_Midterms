@@ -1,0 +1,14 @@
+\\vmware-host\Shared Folders\Docus\C# Projects\SnakeNLadder_Midterms\bin\Debug\net8.0\SnakeNLadder_Midterms.exe
+\\vmware-host\Shared Folders\Docus\C# Projects\SnakeNLadder_Midterms\bin\Debug\net8.0\SnakeNLadder_Midterms.deps.json
+\\vmware-host\Shared Folders\Docus\C# Projects\SnakeNLadder_Midterms\bin\Debug\net8.0\SnakeNLadder_Midterms.runtimeconfig.json
+\\vmware-host\Shared Folders\Docus\C# Projects\SnakeNLadder_Midterms\bin\Debug\net8.0\SnakeNLadder_Midterms.dll
+\\vmware-host\Shared Folders\Docus\C# Projects\SnakeNLadder_Midterms\bin\Debug\net8.0\SnakeNLadder_Midterms.pdb
+\\vmware-host\Shared Folders\Docus\C# Projects\SnakeNLadder_Midterms\obj\Debug\net8.0\SnakeNLadder_Midterms.GeneratedMSBuildEditorConfig.editorconfig
+\\vmware-host\Shared Folders\Docus\C# Projects\SnakeNLadder_Midterms\obj\Debug\net8.0\SnakeNLadder_Midterms.AssemblyInfoInputs.cache
+\\vmware-host\Shared Folders\Docus\C# Projects\SnakeNLadder_Midterms\obj\Debug\net8.0\SnakeNLadder_Midterms.AssemblyInfo.cs
+\\vmware-host\Shared Folders\Docus\C# Projects\SnakeNLadder_Midterms\obj\Debug\net8.0\SnakeNLadder_Midterms.csproj.CoreCompileInputs.cache
+\\vmware-host\Shared Folders\Docus\C# Projects\SnakeNLadder_Midterms\obj\Debug\net8.0\SnakeNLadder_Midterms.dll
+\\vmware-host\Shared Folders\Docus\C# Projects\SnakeNLadder_Midterms\obj\Debug\net8.0\refint\SnakeNLadder_Midterms.dll
+\\vmware-host\Shared Folders\Docus\C# Projects\SnakeNLadder_Midterms\obj\Debug\net8.0\SnakeNLadder_Midterms.pdb
+\\vmware-host\Shared Folders\Docus\C# Projects\SnakeNLadder_Midterms\obj\Debug\net8.0\SnakeNLadder_Midterms.genruntimeconfig.cache
+\\vmware-host\Shared Folders\Docus\C# Projects\SnakeNLadder_Midterms\obj\Debug\net8.0\ref\SnakeNLadder_Midterms.dll
