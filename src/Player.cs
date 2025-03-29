@@ -22,12 +22,12 @@ namespace SnakeNLadderGame{
 
 			SkillUsage = new Dictionary<string, string>{
 				{"Stun", "Time freezes to those that oppose you..."}, 
-				{"Ladder Time!", "Lady luck smiles at you, you moved 1 tile up..."},
+				{"Ladder Time!", "Lady luck smiles at you, you are granted greater teleportation..."},
 				{"Oh No! Snake", "You inflicted a greater curse towards your foes..."}
 			};
 		}
 
-		public void useSkill(int skillNumber, int playerNumber, List<Player> Players){
+		public void useSkill(int skillNumber, int currentPlayerIndex, List<Player> Players){
 			if(Skills.ContainsKey(skillNumber)) {
 				string skillUsed = Skills[skillNumber];
 
@@ -35,7 +35,7 @@ namespace SnakeNLadderGame{
 					case "Stun":
 						Console.WriteLine($"{SkillUsage[skillUsed]}");
 						Console.Write($"Who dares oppose you?....Select player's number [1 - {Players.Count}]: ");
-						playerNumber = Convert.ToInt32(Console.ReadLine());
+						int playerNumber = Convert.ToInt32(Console.ReadLine());
 						Player foe = Players[playerNumber - 1];
 						Console.WriteLine($"\nUsed [Stun] to player [{foe.Name}]");
 						foe.Status = "Stunned";
@@ -43,7 +43,21 @@ namespace SnakeNLadderGame{
 						break;
 
 					case "Ladder Time!":
-						break;
+						Console.WriteLine($"{SkillUsage[skillUsed]}");
+						Player currentPlayer = Players[currentPlayerIndex];
+						Console.Write("Where would you like to go? [1-70]: ");
+						int newPosition = Convert.ToInt32(Console.ReadLine());
+						int newRow = (newPosition - 1) / 10;
+
+						if(newRow > 6) {
+							Console.WriteLine("Greed is a sin... Teleportation lost its effect...");
+							break;
+						}
+						else{
+							currentPlayer.Position = newPosition;
+							Console.WriteLine($"Player [{currentPlayer.Name}] moved to position {newPosition}...");
+							break;
+						}
 
 					case "Oh No! Snake":
 						break;

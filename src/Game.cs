@@ -48,11 +48,11 @@ namespace SnakeNLadderGame{
 				int move = 0;
 				if(string.IsNullOrEmpty(skillUsed)){
 					move = rollDice();
+					currentPlayer.Position += move; 
 					Console.WriteLine($"Player [{currentPlayer.Name}] rolled a {move}");
 				} else if(skillUsed.Equals("1") || skillUsed.Equals("2") || skillUsed.Equals("3"))
 					currentPlayer.useSkill(Convert.ToInt32(skillUsed), currentPlayerIndex, Players);
 
-				currentPlayer.Position += move; 
 				currentPlayer.Position = gameBoard.checkPosition(currentPlayer.Position);
 
 				if(currentPlayer.Position > 100){
