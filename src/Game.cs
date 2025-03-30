@@ -2,14 +2,19 @@ using System;
 using System.Collections.Generic;
 
 namespace SnakeNLadderGame{
-
+	
 	public class Game{
 		private List<Player> Players {get; set;}
 		private Board gameBoard {get; set;}
+		private Dictionary<Player, int> PlayerTurnCounters = new Dictionary<Player, int>();
 
 		public Game(List<Player> players){
 			Players = players;
 			gameBoard = new Board();
+			
+			foreach(var player in Players){
+				PlayerTurnCounters[player] = 0;
+			}
 		}
 
 		public void Play(){
@@ -18,20 +23,20 @@ namespace SnakeNLadderGame{
 
 			while(!gameWon){
 				Player currentPlayer = Players[currentPlayerIndex];
+				PlayerTurnCounters[currentPlayer]++;
+
 				Console.Clear();
 				gameBoard.displayBoards(Players);
 
-				bool status = currentPlayer.checkStatus(currentPlayer);
-				int checkTurn = currentPlayer.StatusCounter;
-				if(status){
-					if(checkTurn == 2){
+				if(currentPlayer.checkStatus()){
+					if(currentPlayer.StatusCounter == 0){
 						Console.WriteLine($"\nTime has returned for player [{currentPlayer.Name}]...");
 						currentPlayer.Status = "Normal";
 						currentPlayer.StatusCounter = 0;
 					} else{
 						Console.WriteLine($"\nPlayer [{currentPlayer.Name}] is stunned and cannot move.");
 						currentPlayerIndex = (currentPlayerIndex + 1) % Players.Count;
-						currentPlayer.StatusCounter++;
+						currentPlayer.StatusCounter--;
 						//Console.WriteLine(checkTurn); //Debug 
 						Console.ReadKey();
 						continue;
@@ -51,7 +56,7 @@ namespace SnakeNLadderGame{
 					currentPlayer.Position += move; 
 					Console.WriteLine($"Player [{currentPlayer.Name}] rolled a {move}");
 				} else if(skillUsed.Equals("1") || skillUsed.Equals("2") || skillUsed.Equals("3"))
-					currentPlayer.useSkill(Convert.ToInt32(skillUsed), currentPlayerIndex, Players);
+					currentPlayer.useSkill(PlayerTurnCounters[currentPlayer], Convert.ToInt32(skillUsed), currentPlayerIndex, Players);
 
 				currentPlayer.Position = gameBoard.checkPosition(currentPlayer.Position);
 
