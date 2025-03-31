@@ -47,16 +47,26 @@ namespace SnakeNLadderGame{
 				Console.WriteLine("\nChoose what skills to use...");
 				displaySkills();
 				Console.WriteLine("Or press [Enter] to roll the dice...");
-				Console.Write("Select skill [1-3]: ");
-				string skillUsed = Console.ReadLine(); 
-
+				
+				string skillUsed;
 				int move = 0;
-				if(string.IsNullOrEmpty(skillUsed)){
-					move = rollDice();
-					currentPlayer.Position += move; 
-					Console.WriteLine($"Player [{currentPlayer.Name}] rolled a {move}");
-				} else if(skillUsed.Equals("1") || skillUsed.Equals("2") || skillUsed.Equals("3"))
-					currentPlayer.useSkill(PlayerTurnCounters[currentPlayer], Convert.ToInt32(skillUsed), currentPlayerIndex, Players);
+
+				while(true){
+					Console.Write("Select skill [1-3]: ");
+					skillUsed = Console.ReadLine();
+
+						if(string.IsNullOrEmpty(skillUsed)){
+							move = rollDice();
+							currentPlayer.Position += move; 
+							Console.WriteLine($"Player [{currentPlayer.Name}] rolled a {move}");
+							break;
+						} else if(skillUsed.Equals("1") || skillUsed.Equals("2") || skillUsed.Equals("3")){
+							currentPlayer.useSkill(PlayerTurnCounters[currentPlayer], int.Parse(skillUsed), currentPlayerIndex, Players);
+							break;
+						} else{
+							Console.WriteLine("Invalid input... please follow the instructions...");
+						}
+				}
 
 				currentPlayer.Position = gameBoard.checkPosition(currentPlayer.Position);
 
@@ -69,6 +79,7 @@ namespace SnakeNLadderGame{
 					gameWon = true;
 					break;
 				} 
+
 				currentPlayerIndex = (currentPlayerIndex + 1) % Players.Count;
 
 				Console.Write("Press [Enter] key to continue...");

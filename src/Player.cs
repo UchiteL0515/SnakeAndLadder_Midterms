@@ -29,7 +29,7 @@ namespace SnakeNLadderGame{
 			};
 
 			SkillCooldowns = new Dictionary<string, int>{
-				{"Stun", 3}, {"Ladder Time!", 10}, {"Oh No! Snake", 25}
+				{"Stun", 3}, {"Ladder Time!", 15}, {"Oh No! Snake", 25}
 			};
 			
 			LastUsedTurn = new Dictionary<string, int>{
@@ -42,7 +42,7 @@ namespace SnakeNLadderGame{
 				string skillUsed = Skills[skillNumber];
 
 				//debugging purposes
-				Console.WriteLine($"[{Name}] Used {skillUsed} | Last Used Turn: {LastUsedTurn[skillUsed]}");
+				// Console.WriteLine($"[{Name}] Used {skillUsed} | Last Used Turn: {LastUsedTurn[skillUsed]}");
 
 				if(checkCooldown(skillUsed, playerTurnCount)){
         			    int remainingCooldown = SkillCooldowns[skillUsed] - (playerTurnCount - LastUsedTurn[skillUsed]);
@@ -56,9 +56,24 @@ namespace SnakeNLadderGame{
 				switch(skillUsed){
 					case "Stun":
 						Console.WriteLine($"{SkillUsage[skillUsed]}");
-						Console.Write($"Who dares oppose you?....Select player's number [1 - {Players.Count}]: ");
+						int playerNumber;
 
-						int playerNumber = Convert.ToInt32(Console.ReadLine());
+						while(true){
+							Console.Write($"Who dares oppose you?....Select player's number [1 - {Players.Count}]: ");
+							string input = Console.ReadLine();
+
+							if (!int.TryParse(input, out playerNumber) || playerNumber < 1 || playerNumber > Players.Count){
+								Console.WriteLine($"Invalid input! Please enter a number between 1 and {Players.Count}.");
+								continue;
+							}
+
+							if (playerNumber - 1 == currentPlayerIndex){
+								Console.WriteLine("You cannot use this skill on yourself! Choose another player.");
+								continue;
+							}
+							break;
+						}
+
 						Player foe = Players[playerNumber - 1];
 
 						Console.WriteLine($"\nUsed [Stun] to player [{foe.Name}]");
@@ -72,7 +87,13 @@ namespace SnakeNLadderGame{
 						currentPlayer = Players[currentPlayerIndex];
 
 						Console.Write("Where would you like to go? [1-70]: ");
-						int newPosition = Convert.ToInt32(Console.ReadLine());
+						int newPosition;
+
+						while(!int.TryParse(Console.ReadLine(), out newPosition) || newPosition < 1 || newPosition > 70){
+							Console.WriteLine("Invalid input! Please enter a number between 1 and 70.");
+ 						        Console.Write("Where would you like to go? [1-70]: ");
+						}
+
 						int newRow = (newPosition - 1) / 10;
 
 						if(newRow > 6) {
@@ -87,9 +108,23 @@ namespace SnakeNLadderGame{
 
 					case "Oh No! Snake":
 						Console.WriteLine($"{SkillUsage[skillUsed]}");
-						Console.Write($"Who has incurred your wrath?...Select player's number [1 - {Players.Count}]: ");
+						
+						while (true){
+							Console.Write($"Who has incurred your wrath?...Select player's number [1 - {Players.Count}]: ");
+							string input = Console.ReadLine();
 
-						playerNumber = Convert.ToInt32(Console.ReadLine());
+							if (!int.TryParse(input, out playerNumber) || playerNumber < 1 || playerNumber > Players.Count){
+								Console.WriteLine($"Invalid input! Please enter a number between 1 and {Players.Count}.");
+								continue;
+							}
+
+							if (playerNumber - 1 == currentPlayerIndex){
+								Console.WriteLine("You cannot use this skill on yourself! Choose another player.");
+								continue;
+							}
+							break;
+						}
+
 						foe = Players[playerNumber - 1];
 						Console.WriteLine($"\nUsed [Oh No! Snake] to player [{foe.Name}]");
 
@@ -101,8 +136,6 @@ namespace SnakeNLadderGame{
 							Console.WriteLine($"[{foe.Name}] moved 50 tiles down...");
 						}
 
-						playerNumber = 0;
-						foe = null;
 						break;
 				}
 			}
