@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace SnakeNLadderGame{
@@ -17,72 +17,125 @@ namespace SnakeNLadderGame{
 			}
 		}
 
-		public void Play(){
-			bool gameWon = false;
-			int currentPlayerIndex = 0;
+        public void CenterText(string text, bool newLine = true)
+        {
+            int screenWidth = Console.WindowWidth;
+            Console.SetCursorPosition((screenWidth - text.Length) / 2, Console.CursorTop);
+            Console.Write(text);
+            if (newLine) Console.WriteLine();
+        }
+        public void Play()
+        {
+            bool gameWon = false;
+            int currentPlayerIndex = 0;
 
-			while(!gameWon){
-				Player currentPlayer = Players[currentPlayerIndex];
-				PlayerTurnCounters[currentPlayer]++;
+            while (!gameWon)
+            {
+                Player currentPlayer = Players[currentPlayerIndex];
+                PlayerTurnCounters[currentPlayer]++;
 
-				Console.Clear();
-				gameBoard.displayBoards(Players);
+                Console.Clear();
+                gameBoard.displayBoards(Players);
 
-				if(currentPlayer.checkStatus()){
-					if(currentPlayer.StatusCounter == 0){
-						Console.WriteLine($"\nTime has returned for player [{currentPlayer.Name}]...");
-						currentPlayer.Status = "Normal";
-						currentPlayer.StatusCounter = 0;
-					} else{
-						Console.WriteLine($"\nPlayer [{currentPlayer.Name}] is stunned and cannot move.");
-						currentPlayerIndex = (currentPlayerIndex + 1) % Players.Count;
-						currentPlayer.StatusCounter--;
-						//Console.WriteLine(checkTurn); //Debug 
-						Console.ReadKey();
-						continue;
-					}
-				}
+                if (currentPlayer.checkStatus())
+                {
+                    if (currentPlayer.StatusCounter == 0)
+                    {
+                        CenterText($"Time has returned for player [{currentPlayer.Name}]...");
+                        currentPlayer.Status = "Normal";
+                        currentPlayer.StatusCounter = 0;
+                    }
+                    else
+                    {
+                        CenterText($"Player [{currentPlayer.Name}] is stunned and cannot move.");
+                        currentPlayerIndex = (currentPlayerIndex + 1) % Players.Count;
+                        currentPlayer.StatusCounter--;
+                        Console.ReadKey();
+                        continue;
+                    }
+                }
 
-				Console.WriteLine($"\nPlayer {currentPlayerIndex + 1} {currentPlayer.Name}'s turn:");
-				Console.WriteLine("\nChoose what skills to use...");
-				displaySkills();
-				Console.WriteLine("Or press [Enter] to roll the dice...");
-				Console.Write("Select skill [1-3]: ");
-				string skillUsed = Console.ReadLine(); 
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                CenterText($"Player {currentPlayerIndex + 1} {currentPlayer.Name}'s turn:");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                CenterText("Choose what skills to use");
+                Console.ResetColor();
+                Console.WriteLine();
+                displaySkills();
+                CenterText("Or press [Enter] to roll the dice!");
+                CenterText("Select skill [1-3]: ", false);
+                string skillUsed = Console.ReadLine();
+                Console.ResetColor();
+                Console.WriteLine();
 
-				int move = 0;
-				if(string.IsNullOrEmpty(skillUsed)){
-					move = rollDice();
-					currentPlayer.Position += move; 
-					Console.WriteLine($"Player [{currentPlayer.Name}] rolled a {move}");
-				} else if(skillUsed.Equals("1") || skillUsed.Equals("2") || skillUsed.Equals("3"))
-					currentPlayer.useSkill(PlayerTurnCounters[currentPlayer], Convert.ToInt32(skillUsed), currentPlayerIndex, Players);
+                int move = 0;
+                if (string.IsNullOrEmpty(skillUsed))
+                {
+                    move = rollDice();
+                    currentPlayer.Position += move;
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    CenterText($"Player [{currentPlayer.Name}] rolled a {move}");
+                    Console.ResetColor();
+                }
+                else if (skillUsed.Equals("1") || skillUsed.Equals("2") || skillUsed.Equals("3"))
+                    currentPlayer.useSkill(PlayerTurnCounters[currentPlayer], Convert.ToInt32(skillUsed), currentPlayerIndex, Players);
 
-				currentPlayer.Position = gameBoard.checkPosition(currentPlayer.Position);
+                currentPlayer.Position = gameBoard.checkPosition(currentPlayer.Position);
 
-				if(currentPlayer.Position > 100){
-					int overlap = currentPlayer.Position - 100;
-					currentPlayer.Position = 100 - overlap;
-					Console.WriteLine($"Oh no! moved past 100...moving back {overlap} steps...");
-				} else if(currentPlayer.Position == 100){
-					Console.WriteLine($"Player [{currentPlayer.Name}] wins!");
-					gameWon = true;
-					break;
-				} 
-				currentPlayerIndex = (currentPlayerIndex + 1) % Players.Count;
+                if (currentPlayer.Position > 100)
+                {
+                    int overlap = currentPlayer.Position - 100;
+                    currentPlayer.Position = 100 - overlap;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    CenterText($"Oh no! moved past 100...moving back {overlap} steps...");
+                    Console.ResetColor();
+                }
+                else if (currentPlayer.Position == 100)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    CenterText($"Player [{currentPlayer.Name}] wins!");
+                    Console.ResetColor();
+                    gameWon = true;
+                    break;
+                }
+                currentPlayerIndex = (currentPlayerIndex + 1) % Players.Count;
 
-				Console.Write("Press [Enter] key to continue...");
-				Console.ReadKey();
-			}
-		}
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                CenterText("Press [Enter] key to continue");
+                Console.ResetColor();
+                Console.ReadKey();
+            }
+        }
 
-		private void displaySkills(){
-			Console.WriteLine("1 - [Stun]");
-			Console.WriteLine("2 - [Ladder Time!]");
-			Console.WriteLine("3 - [Oh no! Snake]");
-		}
+        private void displaySkills()
+        {
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            CenterText("╔═════════════════════╗");
+            CenterText("║      SKILLS MENU    ║");
+            CenterText("╠═════════════════════╣");
 
-		private int rollDice(){
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            CenterText("║ 1 - [Stun]          ║");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            CenterText("║ 2 - [Ladder Time!]  ║");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            CenterText("║ 3 - [Oh no! Snake]  ║");
+
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            CenterText("╚═════════════════════╝");
+
+            Console.ResetColor();
+            Console.WriteLine();
+        }
+
+
+
+        private int rollDice(){
 			Random random = new Random();
 			return random.Next(1,7);
 		}
